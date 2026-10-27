@@ -13,8 +13,7 @@ subprocess.run(['node', 'scripts/check-extension.mjs'], cwd=root, check=True)
 package = json.loads((root / 'package.json').read_text())
 notices = [
     'AutoFirme Chrome extension — local development build\n',
-    'Upstream: https://github.com/Administracion-Abierta/AutoFirme\n',
-    'Upstream revision: d6dfa434d3be2aa2ed53b3956f7d10c3ab8c1035\n',
+    'Upstream: https://github.com/Administracion-Abierta/AutoFirme-Extension\n',
     'No declared license was found at this upstream revision. Clarify distribution rights before publication.\n',
     'Dependency notices follow, including development-listed packages used by the bundled UI.\n',
 ]
@@ -35,6 +34,9 @@ for name in sorted(set(package.get('dependencies', {})) | set(package.get('devDe
     'extensionVersion': manifest['version'],
 }, indent=2) + '\n')
 archive = root / 'dist' / f"autofirme-extension-{manifest['version']}.zip"
+# ponytail: reproducibility is same-machine (the release workflow builds twice and
+# diffs); across machines the zlib build differs and deflate streams drift. A pinned
+# zlib (e.g. a vendored miniz) would buy cross-machine byte-equality when needed.
 with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as bundle:
     for path in sorted(output.rglob('*')):
         if path.is_file():
