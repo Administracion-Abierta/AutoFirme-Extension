@@ -1,0 +1,40 @@
+{
+	"include": [
+		"src",
+		"test",
+		"*"
+	],
+	"exclude": [
+		"src/service-worker.ts",
+		"dist",
+		"node_modules"
+	],
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"verbatimModuleSyntax": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"checkJs": true,
+		"strict": true,
+		"paths": {
+			"#lib": [
+				"./src/lib"
+			],
+			"#lib/*": [
+				"./src/lib/*"
+			]
+		},
+		"types": [
+			"svelte",
+			"vite/client"
+		],
+		"allowJs": true,
+		"noEmit": true
+	}
+}

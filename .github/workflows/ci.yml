@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: check, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    # node:24-trixie = debian:trixie (OpenSSL 3.5) + node preinstalled. A plain trixie
+    # image has no node, so every node-based action (checkout, setup-node, pnpm) dies
+    # with `crun: executable file 'node' not found in $PATH` before step 2.
+    container:
+      image: node:24-trixie
+    steps:
+      # node:24-trixie ships node/git/python3/unzip; apt only adds the test oracles.
+      - name: Toolchain
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq --no-install-recommends unzip zip python3 ca-certificates
+          # The workspace is mounted from the host; without this, git refuses to read it.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      # Both version files must agree before anything is packaged (see check-versions.mjs).
+      - run: pnpm check:versions
+      # UI suites plus the extension suites; the extension tests need no build output.
+      - run: pnpm test
+      - run: pnpm build:extension
+      - run: pnpm check:extension
+      - run: pnpm package:extension
+      # upload-artifact v4 talks to GitHub's artifact API; on Forgejo it fails
+      # with GHESNotSupportedError (see main-repo run 2469), so skip it off-GitHub.
+      - uses: actions/upload-artifact@v4
+        if: startsWith(github.server_url, 'https://github.com')
+        with:
+          name: autofirme-extension
+          path: |
+            dist/autofirme-extension-*.zip
+            dist/SHA256SUMS
+          if-no-files-found: error
