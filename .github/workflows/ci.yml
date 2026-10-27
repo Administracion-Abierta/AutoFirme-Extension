@@ -33,7 +33,7 @@ jobs:
           apt-get install -y -qq --no-install-recommends openssl unzip zip python3 ca-certificates xmlsec1 libxml2-utils
           # The workspace is mounted from the host; without this, git refuses to read it.
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
