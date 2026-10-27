@@ -93,12 +93,12 @@ test('no workflow references a Forgejo-prefixed action URL or the Forgejo API', 
 	assert.doesNotMatch(rpWorkflow, /github-api-url/, 'release-please must use the GitHub API');
 });
 
-test('workflows pin upload-artifact v4 (v3 is force-failed on GitHub)', () => {
+test('workflows pin a supported upload-artifact (v3 is force-failed on GitHub)', () => {
 	for (const source of [workflow, devWorkflow, ciWorkflow]) {
 		assert.doesNotMatch(source, /upload-artifact@v3/);
 	}
 	const uses = [workflow, devWorkflow, ciWorkflow].join('\n').match(/upload-artifact@\S+/g) ?? [];
-	assert.ok(uses.length >= 2 && uses.every((u) => u === 'upload-artifact@v4'), uses.join(' '));
+	assert.ok(uses.length >= 2 && uses.every((u) => /^upload-artifact@v[4-9]$/.test(u)), uses.join(' '));
 });
 
 test('every upload-artifact step is skipped on non-GitHub hosts (v4 = GHESNotSupportedError there)', () => {
