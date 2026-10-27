@@ -29,13 +29,13 @@ for name in sorted(set(package.get('dependencies', {})) | set(package.get('devDe
             notices.append(license_path.read_text(errors='replace') + '\n')
 (output / 'THIRD_PARTY_NOTICES.txt').write_text(''.join(notices))
 (output / 'SOURCE_REVISION.json').write_text(json.dumps({
-    'upstream': 'https://github.com/Administracion-Abierta/AutoFirme',
-    'upstreamRevision': 'd6dfa434d3be2aa2ed53b3956f7d10c3ab8c1035',
+    'upstream': 'https://github.com/Administracion-Abierta/AutoFirme-Extension',
+    'upstreamRevision': '04fe201289d1ec26f5754ad53730be9791c38b21',
     'localRevision': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip(),
     'extensionVersion': manifest['version'],
 }, indent=2) + '\n')
 archive = root / 'dist' / f"autofirme-extension-{manifest['version']}.zip"
-with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as bundle:
+with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as bundle:
     for path in sorted(output.rglob('*')):
         if path.is_file():
             entry = zipfile.ZipInfo(path.relative_to(output).as_posix(), (1980, 1, 1, 0, 0, 0))
