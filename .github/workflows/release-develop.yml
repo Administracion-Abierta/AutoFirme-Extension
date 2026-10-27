@@ -27,9 +27,9 @@ jobs:
       # for the API calls below is missing.
       - name: Install toolchain
         run: apt-get update -qq && apt-get install -y -qq --no-install-recommends ca-certificates
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
