@@ -9,7 +9,7 @@ and MCP server live in the main repo.
 ## Install (from a release)
 
 1. Download `autofirme-extension-<version>.zip` from
-   [Releases](https://github.com/Administracion-Abierta/autofirme-extension/releases).
+   [Releases](https://github.com/Administracion-Abierta/AutoFirme-Extension/releases).
 2. Verify: `sha256sum -c SHA256SUMS` (Linux/macOS) or `certutil -hashfile <zip> SHA256` (Windows).
 3. Unzip, open `chrome://extensions`, enable **Developer mode**, **Load unpacked**,
    pick the extracted folder. The extension is unsigned, so developer mode is required.
