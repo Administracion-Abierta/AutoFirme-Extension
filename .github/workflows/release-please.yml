@@ -30,3 +30,9 @@ jobs:
           manifest-file: .release-please-manifest.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # The organisation forbids Actions from opening pull requests, so the action
+      # cannot finish its PR step. It still pushes the release branch; the PR is
+      # opened by a maintainer (or by a PAT-enabled run) from that branch.
+      - name: Report the release branch
+        if: always()
+        run: 'echo "Release branch: release-please--branches--main--components--autofirme-extension"'
