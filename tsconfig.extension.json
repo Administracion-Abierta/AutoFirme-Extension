@@ -1,11 +1,29 @@
 {
-	"extends": "$app/tsconfig",
-	"include": ["extension", "scripts", "demo"],
+	"include": [
+		"extension",
+		"scripts",
+		"demo"
+	],
 	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 		"checkJs": true,
 		"strict": true,
 		"noImplicitAny": false,
-		"moduleResolution": "bundler",
-		"paths": { "#lib/*": ["./src/lib/*"] }
-	}
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"allowJs": true,
+		"noEmit": true,
+		"paths": {
+			"#lib/*": [
+				"./src/lib/*"
+			]
+		},
+		"allowImportingTsExtensions": true
+	},
+	"files": [
+		"types.d.ts"
+	]
 }
