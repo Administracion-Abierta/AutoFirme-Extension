@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/Administracion-Abierta/AutoFirme-Extension/compare/v0.2.1...v0.2.2) (2026-10-27)
+
+
+### Bug Fixes
+
+* **pkg:** drop the stale AutoFirme upstream line from THIRD_PARTY_NOTICES ([770fc79](https://github.com/Administracion-Abierta/AutoFirme-Extension/commit/770fc797a6e9ec8a50ce571e5d60268f38f7524b))
+
 ## [0.2.1](https://github.com/Administracion-Abierta/AutoFirme-Extension/compare/v0.2.0...v0.2.1) (2026-10-27)
 
 
