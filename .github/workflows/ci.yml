@@ -25,11 +25,12 @@ jobs:
     container:
       image: node:24-trixie
     steps:
-      # node:24-trixie ships node/git/python3/unzip; apt only adds the test oracles.
+      # node:24-trixie ships node/git/python3/unzip; apt adds the test oracles
+      # (xmlsec1 verifies generated XAdES, openssl the fixture generator >= 3.4).
       - name: Toolchain
         run: |
           apt-get update -qq
-          apt-get install -y -qq --no-install-recommends unzip zip python3 ca-certificates
+          apt-get install -y -qq --no-install-recommends openssl unzip zip python3 ca-certificates xmlsec1 libxml2-utils
           # The workspace is mounted from the host; without this, git refuses to read it.
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/checkout@v4
